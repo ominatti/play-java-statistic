@@ -11,8 +11,8 @@ public class StatisticTest {
 		Statistic sta = new Statistic();		
 		assertEquals(sta.getAvg(), new Double(0.0));
 		assertEquals(sta.getSum(), new Double(0.0));
-		assertEquals(sta.getMax(), new Double(0.0));
-		assertEquals(sta.getMin(), new Double(0.0));
+		assertTrue(sta.getMax().isNaN());
+		assertTrue(sta.getMin().isNaN());
 		assertEquals(sta.getCount(), new Long(0));
 	}
 	
