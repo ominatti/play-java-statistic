@@ -15,6 +15,7 @@ public class StatisticCache {
 	private volatile static Statistic statistic = new Statistic();
 	private static ReadWriteLock lock = new ReentrantReadWriteLock();
 	
+	private StatisticCache() {}
 	
 	public static CompletionStage<Statistic> update(Transaction transaction) {
 		return CompletableFuture.supplyAsync(() -> {
@@ -29,7 +30,7 @@ public class StatisticCache {
 	
 	public static CompletionStage<Statistic> get() {
 		return CompletableFuture.supplyAsync(() -> {
-			lock.readLock().lock();
+			lock.readLock().lock();	
 			try {
 				return statistic;
 			} finally {
@@ -37,5 +38,4 @@ public class StatisticCache {
 			} 
 		});
 	}
-
 }
