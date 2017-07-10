@@ -6,7 +6,7 @@ import java.util.concurrent.CompletionStage;
 import javax.inject.Inject;
 
 import model.schema.Transaction;
-import model.util.StatisticCache;
+import model.service.TransactionService;
 import play.data.Form;
 import play.data.FormFactory;
 import play.libs.concurrent.HttpExecutionContext;
@@ -17,11 +17,13 @@ public class TransactionController extends Controller {
 
     private final FormFactory formFactory;
     private final HttpExecutionContext ec;
+    private final TransactionService service;
 
     @Inject
-    public TransactionController(FormFactory formFactory, HttpExecutionContext ec) {
+    public TransactionController(FormFactory formFactory, HttpExecutionContext ec, TransactionService service) {
         this.formFactory = formFactory;
         this.ec = ec;
+        this.service = service;
     }
 
     public Result index() {
@@ -36,7 +38,7 @@ public class TransactionController extends Controller {
     	} else {
     		Transaction transaction = form.get();
     		if(transaction.isValid()){
-    			return StatisticCache.update(transaction).thenApplyAsync( s -> {    				
+    			return service.add(transaction).thenApplyAsync( s -> {    				
     				return ok();
     			}, ec.current());
     		} else {

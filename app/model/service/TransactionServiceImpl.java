@@ -2,29 +2,23 @@ package model.service;
 
 import java.util.concurrent.CompletionStage;
 
-import javax.inject.Inject;
+import com.google.inject.Singleton;
 
-import model.repository.TransactionRepository;
 import model.schema.Statistic;
 import model.schema.Transaction;
+import model.util.StatisticCache;
 
+@Singleton
 public class TransactionServiceImpl implements TransactionService {
-
-	private final TransactionRepository repository;
 	
-    @Inject
-    public TransactionServiceImpl(TransactionRepository repository) {
-        this.repository = repository;
-    }
-    
 	@Override
 	public CompletionStage<Statistic> add(Transaction transaction) {
-		return repository.add(transaction);
+		return StatisticCache.update(transaction);
 	}
 
 	@Override
 	public CompletionStage<Statistic> get() {
-		return repository.get();
+		return StatisticCache.get();
 	}
 
 }
