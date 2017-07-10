@@ -20,8 +20,9 @@ public class StatisticCache {
 	public static CompletionStage<Statistic> update(Transaction transaction) {
 		return CompletableFuture.supplyAsync(() -> {
 			lock.writeLock().lock();
-			try {				
-				return statistic.update(transaction);
+			try {			
+				statistic = statistic.update(transaction); 
+				return statistic;
 		    } finally {
 		        lock.writeLock().unlock();
 		    }

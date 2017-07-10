@@ -1,15 +1,15 @@
 package model.schema;
 
 /** 
- * Not thread-safe. Make sure to synchronized your methods before use it.
+ * Thread-safe.
  */
-public class Statistic {
+public final class Statistic {
 	
-	private Double avg;
-	private Double sum;
-	private Double max;
-	private Double min;
-	private Long count;
+	private final Double avg;
+	private final Double sum;
+	private final Double max;
+	private final Double min;
+	private final Long count;
 	
 	public Statistic() {
 		super();
@@ -65,12 +65,6 @@ public class Statistic {
 		Double max = ( this.max.isNaN() || this.max < transaction.amount ) ? transaction.amount : this.max;  
 	    Double min = ( this.min.isNaN() || this.min > transaction.amount ) ? transaction.amount : this.min;
 
-	    this.avg = avg;
-	    this.sum = sum;
-	    this.max = max;
-	    this.min = min;
-	    this.count = this.count + 1 ;
-	    
-	    return this;
+	    return new Statistic(avg, sum, max, min, this.count + 1 );
 	}
 }
